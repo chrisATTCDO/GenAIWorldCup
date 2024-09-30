@@ -12,13 +12,7 @@ import datetime
 
 # COMMAND ----------
 
-# formatted_time = strftime('%m/%d/%Y %H:%M:%S', localtime(1613474400))
-# print(formatted_time)
-
-
-# COMMAND ----------
-
-Symbol = "T"
+Symbol = "AAPL"
 
 File_Path = '/dbfs/mnt/regression_testing/hackathon_files/pending/'
 
@@ -387,6 +381,10 @@ show_file_content(file_name)
 # COMMAND ----------
 
 print("Notebook Execution Completed:", datetime.datetime.now())
+
+# COMMAND ----------
+
+display(dbutils.fs.ls("dbfs:/mnt/regression_testing/hackathon_files/pending"))
 
 # COMMAND ----------
 
