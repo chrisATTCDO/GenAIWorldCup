@@ -4,6 +4,10 @@
 
 # COMMAND ----------
 
+dbutils.widgets.text("Stock_Symbol", "T")
+
+# COMMAND ----------
+
 import yfinance as yf
 import json
 from pprint import pprint
@@ -12,7 +16,12 @@ import datetime
 
 # COMMAND ----------
 
-Symbol = "AAPL"
+Symbol = dbutils.widgets.get("Stock_Symbol").strip().upper()
+
+if Symbol == "":
+  dbutils.notebook.exit("Stock Symbol is required!")
+
+print("Symbol:", Symbol)
 
 File_Path = '/dbfs/mnt/regression_testing/hackathon_files/pending/'
 
@@ -23,7 +32,18 @@ File_Path = '/dbfs/mnt/regression_testing/hackathon_files/pending/'
 
 # COMMAND ----------
 
+def get_value(obj, key):
+  try:
+    return obj[key]
+  except:
+    return ''
+
+# COMMAND ----------
+
 def epoch_to_date(epoch_time):
+  if epoch_time == '':
+      return ''
+    
   return strftime('%m/%d/%Y %H:%M:%S', localtime(epoch_time))
 
 # COMMAND ----------
@@ -88,11 +108,15 @@ profile = {
   'governanceEpochDate': epoch_to_date(ticker.info['governanceEpochDate']),
   'compensationAsOfEpochDate': epoch_to_date(ticker.info['compensationAsOfEpochDate']),
 
-  'dividendRate': ticker.info['dividendRate'],
-  'dividendYield': ticker.info['dividendYield'],
-  'exDividendDate': epoch_to_date(ticker.info['exDividendDate']),
-  'payoutRatio': ticker.info['payoutRatio'],
-  'fiveYearAvgDividendYield': ticker.info['fiveYearAvgDividendYield'],
+  'dividendRate': get_value(ticker.info, 'dividendRate'),
+  'dividendYield': get_value(ticker.info, 'dividendYield'),
+  'exDividendDate': epoch_to_date(get_value(ticker.info, 'exDividendDate')),
+  'payoutRatio': get_value(ticker.info, 'payoutRatio'),
+  'fiveYearAvgDividendYield': get_value(ticker.info, 'fiveYearAvgDividendYield'),
+  'lastDividendValue': get_value(ticker.info, 'lastDividendValue'),
+  'lastDividendDate': epoch_to_date(get_value(ticker.info, 'lastDividendDate')),
+  'trailingAnnualDividendRate': get_value(ticker.info, 'trailingAnnualDividendRate'),
+  'trailingAnnualDividendYield': get_value(ticker.info, 'trailingAnnualDividendYield'),
 
   'beta': ticker.info['beta'],
   'trailingPE': ticker.info['trailingPE'],
@@ -101,9 +125,6 @@ profile = {
   'currency': ticker.info['currency'],
   'marketCap': ticker.info['marketCap'],
   'enterpriseValue': ticker.info['enterpriseValue'],
-
-  'trailingAnnualDividendRate': ticker.info['trailingAnnualDividendRate'],
-  'trailingAnnualDividendYield': ticker.info['trailingAnnualDividendYield'],
 
   'profitMargins': ticker.info['profitMargins'],
 
@@ -122,9 +143,6 @@ profile = {
 
   'enterpriseToRevenue': ticker.info['enterpriseToRevenue'],
   'enterpriseToEbitda': ticker.info['enterpriseToEbitda'],
-
-  'lastDividendValue': ticker.info['lastDividendValue'],
-  'lastDividendDate': epoch_to_date(ticker.info['lastDividendDate']),
 
   'firstTradeDateEpochUtc': epoch_to_date(ticker.info['firstTradeDateEpochUtc']),
 
@@ -173,7 +191,7 @@ contact = {
   'country': ticker.info['country'],
   'phone': ticker.info['phone'],
   'website': ticker.info['website'],
-  'Investor Relation (IR) Website': ticker.info['irWebsite'],
+  'Investor Relation (IR) Website': get_value(ticker.info, 'irWebsite'),
 }
 
 file_name = f"{File_Path}{Symbol}_contact.txt"
