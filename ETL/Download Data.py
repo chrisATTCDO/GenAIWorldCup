@@ -1,10 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC ## Download Data From Various Sources
-
-# COMMAND ----------
-
-print("hello world3")
+# MAGIC # Download Data From Various Sources
 
 # COMMAND ----------
 
