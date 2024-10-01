@@ -35,7 +35,7 @@ import pandas as pd
 
 # MAGIC %sql
 # MAGIC Insert into `31184_cerebro_prd`.`cv0361`.`select_stock`(Symbol)
-# MAGIC values('WBA')
+# MAGIC values('NVDA')
 
 # COMMAND ----------
 
@@ -51,7 +51,7 @@ import pandas as pd
 # MAGIC From `31184_cerebro_prd`.`cv0361`.`select_stock`
 # MAGIC -- Where Downloaded is null 
 # MAGIC --   OR datediff(DAY, Downloaded, current_date()) > 0
-# MAGIC ORDER BY Downloaded
+# MAGIC ORDER BY Downloaded, Symbol
 
 # COMMAND ----------
 
