@@ -1,6 +1,6 @@
 <img src="UI/Images/WallStreetGuru.png" alt="drawing" width="200"/>
 
-# Wall Street Guru
+# GenAIWorldCup - Wall Street Guru
 This Repos contains deliverable for Databricks GenAI World Cup Hackathon. We created an interactive Wall Street Financial Guru (Avatar) who can provide financial insight and realtime stocks info for companies. This tool can be used as a Chatbot Avatar for Wall Street Investment Firm or as a Chatbot Avatar for a company's Investor Relation application.
 
 * hackathon: https://hackathon.stackup.dev/web/events
