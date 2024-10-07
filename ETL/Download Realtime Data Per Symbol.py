@@ -93,7 +93,8 @@ print(company_header)
 # COMMAND ----------
 
 realtime = {
-  'Current Price': ticker.info['open'],
+  'Current Stock Price': ticker.info['currentPrice'],
+  'Previous Day Close': ticker.info['previousClose'],
   'day open Price': ticker.info['open'],
   'day Low Price': ticker.info['dayLow'],
   'day High Price': ticker.info['dayHigh'],
@@ -112,7 +113,7 @@ print("Notebook Execution Completed:", datetime.datetime.now())
 
 # COMMAND ----------
 
-display(dbutils.fs.ls("dbfs:/mnt/regression_testing/hackathon_files/pending"))
+# display(dbutils.fs.ls("dbfs:/mnt/regression_testing/hackathon_files/pending"))
 
 # COMMAND ----------
 

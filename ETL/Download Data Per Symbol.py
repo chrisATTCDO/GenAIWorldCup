@@ -218,7 +218,6 @@ show_file_content(file_name)
 # COMMAND ----------
 
 fundamental = {
-  'Previous Day Close': ticker.info['previousClose'],
   'average Volume': ticker.info['averageVolume'],
   'average Volume 10-days': ticker.info['averageVolume10days'],
   
@@ -258,7 +257,8 @@ show_file_content(file_name)
 # COMMAND ----------
 
 realtime = {
-  'Current Price': ticker.info['open'],
+  'Current Stock Price': ticker.info['currentPrice'],
+  'Previous Day Close': ticker.info['previousClose'],
   'day open Price': ticker.info['open'],
   'day Low Price': ticker.info['dayLow'],
   'day High Price': ticker.info['dayHigh'],
@@ -287,7 +287,6 @@ analyst = {
   'recommended price mean': ticker.analyst_price_targets['mean'],
   'recommended price median': ticker.analyst_price_targets['median'],
 
-  # 'target Price': ticker.info['currentPrice'],
   # 'target High Price': ticker.info['targetHighPrice'],
   # 'target Low Price': ticker.info['targetLowPrice'],
   # 'target Mean Price': ticker.info['targetMeanPrice'],
@@ -417,7 +416,7 @@ print("Notebook Execution Completed:", datetime.datetime.now())
 
 # COMMAND ----------
 
-display(dbutils.fs.ls("dbfs:/mnt/regression_testing/hackathon_files/pending"))
+# display(dbutils.fs.ls("dbfs:/mnt/regression_testing/hackathon_files/pending"))
 
 # COMMAND ----------
 

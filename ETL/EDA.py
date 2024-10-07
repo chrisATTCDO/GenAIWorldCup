@@ -24,18 +24,18 @@ import pandas as pd
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC Create table if not exists `31184_cerebro_prd`.`cv0361`.`select_stock`(
-# MAGIC   Symbol string,
-# MAGIC   Downloaded date,
-# MAGIC   ErrorMsg string
-# MAGIC )
+# %sql
+# Create table if not exists `31184_cerebro_prd`.`cv0361`.`select_stock`(
+#   Symbol string,
+#   Downloaded date,
+#   ErrorMsg string
+# )
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC Insert into `31184_cerebro_prd`.`cv0361`.`select_stock`(Symbol)
-# MAGIC values('AMD')
+# %sql
+# Insert into `31184_cerebro_prd`.`cv0361`.`select_stock`(Symbol)
+# values('AMD')
 
 # COMMAND ----------
 
@@ -46,10 +46,10 @@ import pandas as pd
 
 # COMMAND ----------
 
-# %sql
-# Update `31184_cerebro_prd`.`cv0361`.`select_stock`
-# Set Downloaded = null
-# Where Symbol not in ('AMD','HD','KO','PLTR','SBUX','UBER','WMT')
+# MAGIC %sql
+# MAGIC Update `31184_cerebro_prd`.`cv0361`.`select_stock`
+# MAGIC Set Downloaded = null
+# MAGIC -- Where Symbol not in ('AMD','HD','KO','PLTR','SBUX','UBER','WMT')
 
 # COMMAND ----------
 
@@ -67,19 +67,19 @@ import pandas as pd
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC create table if not exists `31184_cerebro_prd`.`cv0361`.`company` 
-# MAGIC as
-# MAGIC SELECT Symbol, replace(replace(replace(Name, ' Common Stock', ''), ' Common Shares', ''), ' Ordinary Shares', '') as Name
-# MAGIC FROM `31184_cerebro_prd`.`cv0361`.`stock`
-# MAGIC Where Name not like '% Warrants' AND Name not like '% Warrant';
+# %sql
+# create table if not exists `31184_cerebro_prd`.`cv0361`.`company` 
+# as
+# SELECT Symbol, replace(replace(replace(Name, ' Common Stock', ''), ' Common Shares', ''), ' Ordinary Shares', '') as Name
+# FROM `31184_cerebro_prd`.`cv0361`.`stock`
+# Where Name not like '% Warrants' AND Name not like '% Warrant';
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC SELECT * 
-# MAGIC FROM `31184_cerebro_prd`.`cv0361`.`company`
-# MAGIC Where Symbol = 'T';
+# %sql
+# SELECT * 
+# FROM `31184_cerebro_prd`.`cv0361`.`company`
+# Where Symbol = 'T';
 
 # COMMAND ----------
 
@@ -87,9 +87,9 @@ import pandas as pd
 
 # COMMAND ----------
 
-import os
+# import os
 
-os.getenv("no_proxy")
+# os.getenv("no_proxy")
 
 # COMMAND ----------
 
