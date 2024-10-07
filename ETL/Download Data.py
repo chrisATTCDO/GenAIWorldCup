@@ -8,10 +8,18 @@ import yfinance as yf
 
 # COMMAND ----------
 
-msft = yf.Ticker("T")
+msft = yf.Ticker("MSFT")
 
 # get all stock info
 msft.info
+
+# COMMAND ----------
+
+msft.get_actions()
+
+# COMMAND ----------
+
+msft.get_calendar()
 
 # COMMAND ----------
 

@@ -218,16 +218,10 @@ show_file_content(file_name)
 # COMMAND ----------
 
 fundamental = {
-  'Previous Stock Close': ticker.info['previousClose'],
-  'Stock open': ticker.info['open'],
-  'Stock day Low': ticker.info['dayLow'],
-  'Stock day High': ticker.info['dayHigh'],
-  'volume': ticker.info['volume'],
+  'Previous Day Close': ticker.info['previousClose'],
   'average Volume': ticker.info['averageVolume'],
   'average Volume 10-days': ticker.info['averageVolume10days'],
-  'bid Size': ticker.info['bidSize'],
-  'ask Size': ticker.info['askSize'],
-
+  
   '52-Week Low': ticker.info['fiftyTwoWeekLow'],
   '52-Week High': ticker.info['fiftyTwoWeekHigh'],
   '50-Day Simple Moving Average': ticker.info['fiftyDayAverage'],
@@ -249,16 +243,32 @@ fundamental = {
   'short Ratio': ticker.info['shortRatio'],
   'short Percent Of Float': ticker.info['shortPercentOfFloat'],
   'implied Shares Outstanding': ticker.info['impliedSharesOutstanding'],
-
-  'current Price': ticker.info['currentPrice'],
-  'target High Price': ticker.info['targetHighPrice'],
-  'target Low Price': ticker.info['targetLowPrice'],
-  'target Mean Price': ticker.info['targetMeanPrice'],
-  'target Median Price': ticker.info['targetMedianPrice'],
 }
 
 file_name = f"{File_Path}{Symbol}_fundamental.txt"
 write_stock_info(file_name, company_header + "\nStock Fundamental in JSON Format", fundamental)
+show_file_content(file_name)
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Realtime Quote Placeholder
+# MAGIC * Generate placeholder values... Realtime Job will overwrite this values
+
+# COMMAND ----------
+
+realtime = {
+  'Current Price': ticker.info['open'],
+  'day open Price': ticker.info['open'],
+  'day Low Price': ticker.info['dayLow'],
+  'day High Price': ticker.info['dayHigh'],
+  'bid Size': ticker.info['bidSize'],
+  'ask Size': ticker.info['askSize'],
+  'Stock Volume': ticker.info['volume'],
+}
+
+file_name = f"{File_Path}{Symbol}_realtime.txt"
+write_stock_info(file_name, company_header + "\nStock Realtime Quote JSON Format. Refresh every 15-minutes.", realtime)
 show_file_content(file_name)
 
 # COMMAND ----------
@@ -276,6 +286,12 @@ analyst = {
   'recommended price high': ticker.analyst_price_targets['high'],
   'recommended price mean': ticker.analyst_price_targets['mean'],
   'recommended price median': ticker.analyst_price_targets['median'],
+
+  # 'target Price': ticker.info['currentPrice'],
+  # 'target High Price': ticker.info['targetHighPrice'],
+  # 'target Low Price': ticker.info['targetLowPrice'],
+  # 'target Mean Price': ticker.info['targetMeanPrice'],
+  # 'target Median Price': ticker.info['targetMedianPrice'],
 }
 
 file_name = f"{File_Path}{Symbol}_analyst.txt"

@@ -35,7 +35,7 @@ import pandas as pd
 
 # MAGIC %sql
 # MAGIC Insert into `31184_cerebro_prd`.`cv0361`.`select_stock`(Symbol)
-# MAGIC values('NVDA')
+# MAGIC values('AMD')
 
 # COMMAND ----------
 
@@ -43,6 +43,13 @@ import pandas as pd
 # Update `31184_cerebro_prd`.`cv0361`.`select_stock`
 # Set Downloaded = current_date()
 # Where Symbol in ('AAPL', 'TSLA', 'T')
+
+# COMMAND ----------
+
+# %sql
+# Update `31184_cerebro_prd`.`cv0361`.`select_stock`
+# Set Downloaded = null
+# Where Symbol not in ('AMD','HD','KO','PLTR','SBUX','UBER','WMT')
 
 # COMMAND ----------
 
@@ -73,6 +80,16 @@ import pandas as pd
 # MAGIC SELECT * 
 # MAGIC FROM `31184_cerebro_prd`.`cv0361`.`company`
 # MAGIC Where Symbol = 'T';
+
+# COMMAND ----------
+
+
+
+# COMMAND ----------
+
+import os
+
+os.getenv("no_proxy")
 
 # COMMAND ----------
 

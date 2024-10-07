@@ -51,10 +51,12 @@ for row in df.rdd.collect():
     # Execute notebook to download stock info
     dbutils.notebook.run("Download Data Per Symbol", timeout_seconds, {"Stock_Symbol": symbol})
 
-    # Update Status table set downloaded = current_date where symbol = {symbol}
-    spark.sql(f"Update `31184_cerebro_prd`.`cv0361`.`select_stock` Set Downloaded = current_date() where symbol = '{symbol}'")
+    # Update Status table set downloaded = current_date and clear error message
+    spark.sql(f"Update `31184_cerebro_prd`.`cv0361`.`select_stock` Set Downloaded = current_date(), ErrorMsg = '' where symbol = '{symbol}'")
   except Exception as e:
     print(e)
+    # Update Status with error message
+    spark.sql(f"Update `31184_cerebro_prd`.`cv0361`.`select_stock` Set ErrorMsg = '{str(e)}' where symbol = '{symbol}'")
 
 # COMMAND ----------
 
