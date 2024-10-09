@@ -1,4 +1,4 @@
-<img src="UI/Images/WallStreetGuru.png" alt="drawing" width="200"/>
+<img src="UI/Images/WallStreetGuru.png" alt="AI-Generated Wall Street Guru" width="200"/>
 
 # GenAIWorldCup - Wall Street Guru
 This Repos contains deliverable for Databricks GenAI World Cup Hackathon. We created an interactive Wall Street Financial Guru (Avatar) who can provide financial insight and realtime stocks info for companies. This tool can be used as a Chatbot Avatar for Wall Street Investment Firm or as a Chatbot Avatar for a company's Investor Relation application.
@@ -7,8 +7,19 @@ This Repos contains deliverable for Databricks GenAI World Cup Hackathon. We cre
 * discord: https://go.d3v.gg/genaiwc-databricks-discord
 
 ## Deliverables
+* Video: TBD
+* Repos: https://github.com/chrisATTCDO/GenAIWorldCup
+
+## Team: AT&T - CDO
+<img src="UI/Images/Team_AT&T-CDO.png" alt="Team AT&T-CDO Members" width="650"/>
+
+## Project Background
+<img src="UI/Images/Application Overview.png" alt="Wall Street Guru Application Overview" width="650"/> <br>
+<img src="UI/Images/Usage Scenarios.png" alt="Wall Street Guru App Usage Scenarios" width="650"/> <br>
+<img src="UI/Images/WhyRAG.png" alt="Why RAG?" width="650"/> <br>
 
 ## Architecture
+<img src="UI/Images/Architecture.png" alt="Wall Street Guru - Architecture" width="650"/>
 
 ## Installation and Setups
 

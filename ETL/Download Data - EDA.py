@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # Download Data From Various Sources
+# MAGIC # Experimenting Download Data From Various Sources and EDA
 
 # COMMAND ----------
 
@@ -277,6 +277,81 @@ opt.calls
 # COMMAND ----------
 
 opt.puts
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Sector and Industry Info
+
+# COMMAND ----------
+
+import yfinance as yf
+
+tech = yf.Sector('technology')
+
+# COMMAND ----------
+
+# Common information
+tech.key
+
+# COMMAND ----------
+
+tech.name
+
+# COMMAND ----------
+
+tech.symbol
+
+# COMMAND ----------
+
+tech.ticker
+
+# COMMAND ----------
+
+tech.overview
+
+# COMMAND ----------
+
+tech.top_companies
+
+# COMMAND ----------
+
+tech.research_reports
+
+
+# COMMAND ----------
+
+# Sector information
+tech.top_etfs
+
+# COMMAND ----------
+
+tech.top_mutual_funds
+
+# COMMAND ----------
+
+tech.industries
+
+# COMMAND ----------
+
+software = yf.Industry('software-infrastructure')
+
+# COMMAND ----------
+
+# Industry information
+software.sector_key
+
+# COMMAND ----------
+
+software.sector_name
+
+# COMMAND ----------
+
+software.top_performing_companies
+
+# COMMAND ----------
+
+software.top_growth_companies
 
 # COMMAND ----------
 
