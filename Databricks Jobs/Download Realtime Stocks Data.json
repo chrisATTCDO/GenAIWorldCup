@@ -1,0 +1,39 @@
+{
+  "name": "Download Realtime Stocks Data",
+  "email_notifications": {
+    "on_failure": [
+      "cv0361@att.com"
+    ],
+    "no_alert_for_skipped_runs": true
+  },
+  "webhook_notifications": {},
+  "timeout_seconds": 0,
+  "schedule": {
+    "quartz_cron_expression": "13 6/15 * * * ?",
+    "timezone_id": "America/Chicago",
+    "pause_status": "PAUSED"
+  },
+  "max_concurrent_runs": 1,
+  "tasks": [
+    {
+      "task_key": "Download_Realtime_Stocks_Data",
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/cv0361@att.com/GenAIWorldCup/ETL/Download Realtime Stocks Data",
+        "source": "WORKSPACE"
+      },
+      "existing_cluster_id": "0927-065311-j2s8k644",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "notification_settings": {
+        "no_alert_for_skipped_runs": false,
+        "no_alert_for_canceled_runs": false,
+        "alert_on_last_attempt": false
+      },
+      "webhook_notifications": {}
+    }
+  ],
+  "run_as": {
+    "user_name": "cv0361@att.com"
+  }
+}

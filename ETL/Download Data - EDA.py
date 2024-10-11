@@ -397,11 +397,6 @@ import yfinance as yf
 
 # COMMAND ----------
 
-for sect_key in yf.const.SECTOR_INDUSTY_MAPPING.keys:
-  print(sect_key)
-
-# COMMAND ----------
-
 for sect_key in yf.const.SECTOR_INDUSTY_MAPPING.keys():
   print("sect_key: ", sect_key)
 
