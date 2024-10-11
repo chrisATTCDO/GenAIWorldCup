@@ -217,6 +217,37 @@ msft.upgrades_downgrades
 
 # COMMAND ----------
 
+df = msft.upgrades_downgrades.reset_index()
+
+# COMMAND ----------
+
+df.loc[df['GradeDate'] > '2024-01-01'].head(10) 
+
+# COMMAND ----------
+
+df = msft.upgrades_downgrades.reset_index()
+
+mylist = []
+ana_list = []
+for index, row in df.loc[df['GradeDate'] > '2024-01-01'].iterrows():
+  if len(mylist) > 9:
+    break       # Enough count
+
+  firm = row['Firm']
+  
+  if firm not in mylist:
+    mylist.append(firm)
+    ana_list.append({
+      'Analyst Firm': firm, 
+      'recommend rating': row['ToGrade'], 
+      'rating date': str(row['GradeDate']), 
+    })
+    # print(firm, row['GradeDate'], row['ToGrade'])
+
+ana_list
+
+# COMMAND ----------
+
 # show analysts data
 msft.analyst_price_targets
 
@@ -352,6 +383,40 @@ software.top_performing_companies
 # COMMAND ----------
 
 software.top_growth_companies
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Processing  Sectors and Industries
+
+# COMMAND ----------
+
+import yfinance as yf
+
+# sect = yf.Sector('technology')
+
+# COMMAND ----------
+
+for sect_key in yf.const.SECTOR_INDUSTY_MAPPING.keys:
+  print(sect_key)
+
+# COMMAND ----------
+
+for sect_key in yf.const.SECTOR_INDUSTY_MAPPING.keys():
+  print("sect_key: ", sect_key)
+
+  # sect = yf.Sector(sect_key)
+  # print("overview:", sect.overview)
+  # print("  companies: ", sect.top_companies)
+
+  for ind_key in yf.const.SECTOR_INDUSTY_MAPPING[sect_key]:
+    print("  ind_key: ", ind_key)
+
+    ind = yf.Industry(ind_key)
+    print("top_performing_companies:", ind.top_performing_companies)
+
+    break
+  break
 
 # COMMAND ----------
 

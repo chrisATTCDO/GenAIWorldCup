@@ -278,6 +278,25 @@ show_file_content(file_name)
 
 # COMMAND ----------
 
+df = ticker.upgrades_downgrades.reset_index()
+
+# Get List of Analysts
+mylist = []
+ana_list = []
+for index, row in df.loc[df['GradeDate'] > '2024-01-01'].iterrows():
+  if len(mylist) > 9:
+    break       # Enough count
+
+  firm = row['Firm']
+  
+  if firm not in mylist:
+    mylist.append(firm)
+    ana_list.append({
+      'Analyst Firm': firm, 
+      'recommend rating': row['ToGrade'], 
+      'rating date': str(row['GradeDate']), 
+    })
+
 analyst = {
   'number Of Analyst Opinions': ticker.info['numberOfAnalystOpinions'],
   'recommendation': ticker.info['recommendationKey'],
@@ -286,11 +305,7 @@ analyst = {
   'recommended price high': ticker.analyst_price_targets['high'],
   'recommended price mean': ticker.analyst_price_targets['mean'],
   'recommended price median': ticker.analyst_price_targets['median'],
-
-  # 'target High Price': ticker.info['targetHighPrice'],
-  # 'target Low Price': ticker.info['targetLowPrice'],
-  # 'target Mean Price': ticker.info['targetMeanPrice'],
-  # 'target Median Price': ticker.info['targetMedianPrice'],
+  'recent analysts coverage': ana_list
 }
 
 file_name = f"{File_Path}{Symbol}_analyst.txt"
