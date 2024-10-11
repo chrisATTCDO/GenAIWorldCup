@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Wallstreet Guru - Team : AT&T - CDO</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+</head>
+
+<body>
+  <div id="header" class="header">    
+    <!-- <img src="{{ url_for('static', filename='image/Wallstreet.png') }}" alt="Logo" class="logo"> -->
+    <h1 class="header-title">Interactive Wallstreet Guru <br> Team : AT&T CDO </h1>  
+  </div> 
+<input type="hidden" id="clientId" value="{{ client_id }}"></input>
+<input type="hidden" id="clientId" value="{{ client_id }}"></input>
+
+<div style="text-align: center;"> 
+  <button id="startSession" onclick="window.startSession()">Open Avatar Session</button>
+  <!-- <button id="stockGuru" onclick="window.startSession()">Talk to Stock Guru</button> -->
+  <button id="microphone" onclick="window.microphone()" disabled>Start Microphone</button>
+  <button id="stopSpeaking" onclick="stopSpeaking()" disabled>Stop Speaking</button>
+  <button id="clearChatHistory" onclick="window.clearChatHistory()">Clear Chat History</button>
+  <button id="stopSession" onclick="window.stopSession()" disabled>Close Avatar Session</button>
+</div>
+
+
+<div id="videoContainer" style="position: relative; width: 960px; margin: 0 auto;">
+  <div id="overlayArea" style="position: absolute;">
+    <textarea id="chatHistory" style="
+        width: 360px;
+        height: 500px;
+        font-size: medium;
+        border: none;
+        resize: none;
+        background-color: transparent;
+        overflow: hidden;
+        margin-right: 20px;"
+       hidden>
+    </textarea>
+  </div>
+  <div id="overlayArea" style="position: absolute; left: 720px" class="__web-inspector-hide-shortcut__">
+   <textarea id="latencyLog" style="
+        width: 360px;
+        height: 500px;
+        font-size: medium;
+        border: none;
+        resize: none;
+        background-color: transparent;
+        visibility: hidden !important;
+        overflow: hidden;" hidden>
+    </textarea>
+  </div> 
+  <div id="localVideo" style="position: absolute; left: 380px;" hidden>
+    <video src="{{ url_for('static', filename='video/lisa-casual-sitting-idle.mp4') }}" autoplay loop muted></video>
+  </div>
+
+  <div id="remoteVideo"></div>
+</div>
+
+<div id="showTypeMessageCheckbox">
+  <input type="checkbox" id="showTypeMessage" onchange="window.updateTypeMessageBox()" disabled>Type Message</input><br />
+</div>
+<textarea id="userMessageBox" style="width: 960px; height: 40px" hidden></textarea><br/>
+
+<div id="configuration" style="visibility: hidden;">
+  <h2 style="background-color: white; width: 300px;">Chat Configuration</h2>
+  <label style="font-size: medium;" for="azureOpenAIDeploymentName">Azure OpenAI Deployment Name:</label>
+  <input id="azureOpenAIDeploymentName" type="text" size="32" style="font-size: medium;" value="gpt-4o"/><br />
+  <label style="font-size: medium;"  for="prompt">System Prompt:</label><br/>
+  <textarea id="prompt" style="width: 640px;">"Your are Stock Guru, stock market analyst who downgraded AT&T in 2022 but now positive on AT&T." + \ "You must always speak natural, professional.  Do not repeat yourself, do not repeat answers and make it like conversational." +\  "But If you ever challenged by someone be professional but you must  add some SIGNIFICANT sarcasm while answering." + \                        "Don't enumerate anything and strictly limit the whole response to 4 sentences. Do not use emojis and unwanted special characters in the response." + \   "Don't generate response as a list. \nEnsure Your response is always informed by 'previous conversation history'." + \      "Strictly follow this point, If someone ask question related with 2022 downgrade issue then only follow with point." + \  "Report mentioned that Analyst downgraded AT&T in 2022 3rd quarter after review of result and performance of company, You did a mistake because company did well from 2022 to 2024." + \    "Make sure you provide this answer only if asked about this incident otherwise don't mentioned anything for this." + \  "While providing this answer add more SIGNIFICANT sarcasm and show with words like you are feeling sorry and asking for forgiveness in SIGNIFICANT sarcasm way without using forgiveness word." +\  While referring AT&T in the response use AT&T keyword only and don't use ATT or Att." + \ "Strictly dont use AT&T's keyword while responding to user's question. Only answer questions based on information you searched in the knowledge base, accessible with the 'search' tool. " + \ "The user is listening to answers with audio, so it's *super* important that answers are as short as possible, a single sentence if at all possible. " + \ "Never read file names or source names or keys out loud. " + \ "Always use the following step-by-step instructions to respond: \n" + \  "1. Always use the 'search' tool to check the knowledge base before answering a question. \n" + \                        "2. Always use the 'report_grounding' tool to report the source of information from the knowledge base. \n" + \  "3. Produce an answer that's as short as possible. If the answer isn't in the knowledge base, say you don't know."</textarea>
+  <div style="background-color: white; width: 300px;">
+    <input type="checkbox" id="enableOyd" onchange="window.updataEnableOyd()">Enable On Your Data</input><br />
+  </div>
+  <br/>
+
+  <div id="cogSearchConfig" hidden="hidden">
+    <label style="font-size: medium;" for="azureCogSearchIndexName">Azure Cognitive Search Index Name:</label>
+    <input id="azureCogSearchIndexName" type="text" size="32" style="font-size: medium;" /><br />
+    <br />
+  </div>
+
+  <h2 style="background-color: white; width: 300px;">Speech Configuration</h2>
+  <label style="font-size: medium;" for="sttLocale">STT Locale(s):</label>
+  <input id="sttLocales" type="text" size="64" style="font-size: medium;" value="en-US"></input><br />
+  <label style="font-size: medium;" for="ttsVoice">TTS Voice:</label>
+  <input id="ttsVoice" type="text" size="32" style="font-size: medium;" value="en-US-AndrewMultilingualNeural"></input><br />
+  <label style="font-size: medium;" for="customVoiceEndpointId">Custom Voice Deployment ID (Endpoint ID):</label>
+  <input id="customVoiceEndpointId" type="text" size="32" style="font-size: medium;" value=""></input><br />
+  <label style="font-size: medium;" for="personalVoiceSpeakerProfileID">Personal Voice Speaker Profile ID:</label>
+  <input id="personalVoiceSpeakerProfileID" type="text" size="32" style="font-size: medium;" value=""></input><br />
+  <div style="background-color: white; width: 300px;">
+    <input type="checkbox" id="continuousConversation" checked>Continuous Conversation</input><br />
+  </div>
+  <br />
+
+  <h2 style="background-color: white; width: 300px;">Avatar Configuration</h2>
+  <label style="font-size: medium;" for="talkingAvatarCharacter">Avatar Character:</label>
+  <input id="talkingAvatarCharacter" type="text" size="16" style="font-size: medium;" value="Harry"></input><br />
+  <label style="font-size: medium;" for="talkingAvatarStyle">Avatar Style:</label>
+  <input id="talkingAvatarStyle" type="text" size="16" style="font-size: medium;" value="Casual"></input><br />
+  <div style="background-color: white; width: 200px;">
+    <input type="checkbox" id="customizedAvatar">Custom Avatar</input><br />
+  </div>
+  <div style="background-color: white; width: 200px;">
+    <input type="checkbox" id="autoReconnectAvatar">Auto Reconnect</input><br />
+  </div>
+  <div style="background-color: white; width: 200px;">
+    <input type="checkbox" id="useLocalVideoForIdle" onchange="window.updateLocalVideoForIdle()">Use Local Video for Idle</input><br />
+  </div>
+  <br />
+</div>
+
+</body>
+</html>
