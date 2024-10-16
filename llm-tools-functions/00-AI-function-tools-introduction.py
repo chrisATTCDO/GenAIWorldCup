@@ -135,6 +135,38 @@
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC ### Create a function to fetch stock data
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC CREATE OR REPLACE FUNCTION get_realtime_stock(symbol STRING)
+# MAGIC RETURNS STRING
+# MAGIC LANGUAGE PYTHON
+# MAGIC COMMENT 'This function retrieves realtime stock data from Yahoo Finance.'
+# MAGIC AS
+# MAGIC $$
+# MAGIC   try:
+# MAGIC     %pip install yfinance
+# MAGIC     import yfinance as yf
+# MAGIC
+# MAGIC     ticker = yf.Ticker(symbol)
+# MAGIC
+# MAGIC
+# MAGIC     return "currentPrice: " + ticker.info['currentPrice']
+# MAGIC   except Exception as e:
+# MAGIC     return str(e)
+# MAGIC $$;
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC -- let's test our function:
+# MAGIC SELECT get_realtime_stock('T') as realtime_quote;
+
+# COMMAND ----------
+
 # MAGIC %md 
 # MAGIC ### Creating a function calling LLMs with specific prompt as a tool
 # MAGIC
@@ -554,3 +586,7 @@ def deploy_chain():
 # MAGIC - More to come!
 # MAGIC
 # MAGIC Stay tuned!
+
+# COMMAND ----------
+
+
