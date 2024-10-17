@@ -38,8 +38,11 @@
 
 # COMMAND ----------
 
-# MAGIC %pip install --quiet -U databricks-sdk==0.23.0 langchain-community==0.2.10 langchain-openai==0.1.19 mlflow==2.14.3 faker
-# MAGIC dbutils.library.restartPython()
+# MAGIC %pip install -U databricks-sdk==0.23.0 langchain-community==0.2.10 langchain-openai==0.1.19 mlflow==2.14.3 faker
+
+# COMMAND ----------
+
+dbutils.library.restartPython()
 
 # COMMAND ----------
 
@@ -136,34 +139,72 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ### Create a function to fetch stock data
+# MAGIC ## Create a function to fetch stock data
+# MAGIC * https://docs.databricks.com/en/sql/language-manual/sql-ref-syntax-ddl-create-sql-function.html
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC CREATE OR REPLACE FUNCTION get_realtime_stock(symbol STRING)
-# MAGIC RETURNS STRING
-# MAGIC LANGUAGE PYTHON
-# MAGIC COMMENT 'This function retrieves realtime stock data from Yahoo Finance.'
-# MAGIC AS
-# MAGIC $$
-# MAGIC   try:
-# MAGIC     %pip install yfinance
-# MAGIC     import yfinance as yf
-# MAGIC
-# MAGIC     ticker = yf.Ticker(symbol)
-# MAGIC
-# MAGIC
-# MAGIC     return "currentPrice: " + ticker.info['currentPrice']
-# MAGIC   except Exception as e:
-# MAGIC     return str(e)
-# MAGIC $$;
+# %sql
+# CREATE OR REPLACE FUNCTION get_realtime_stock(symbol STRING)
+# RETURNS STRING
+# LANGUAGE PYTHON
+# COMMENT 'This function retrieves realtime stock data from Yahoo Finance.'
+# AS
+# $$
+#   try:
+#     #%pip install yfinance
+
+#     import yfinance as yf
+
+#     ticker = yf.Ticker(symbol)
+
+
+#     return "currentPrice: " + ticker.info['currentPrice']
+#   except Exception as e:
+#     return str(e)
+# $$;
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC -- let's test our function:
-# MAGIC SELECT get_realtime_stock('T') as realtime_quote;
+# %sql
+# -- let's test our function:
+# SELECT get_realtime_stock('T') as realtime_quote;
+
+# COMMAND ----------
+
+# %sql
+# CREATE OR REPLACE FUNCTION execute_stock_order(
+#   AccountId string,
+#   Symbol string,
+#   Price double,
+#   Quantity int
+# )
+# RETURNS STRING
+# LANGUAGE PYTHON
+# COMMENT 'This function executes stock ordering.'
+# AS
+# $$
+#   try:
+#     import uuid
+#     from pyspark.sql import SparkSession
+
+#     TransactionId = str(uuid.uuid4())
+
+#     spark = SparkSession.builder.getOrCreate()
+
+#     spark.sql(f"INSERT INTO order_stock (TransactionId, AccountId, Symbol, Price, Quantity) VALUES ('{TransactionId}', '{AccountId}', '{Symbol}', {Price}, {Quantity})")
+
+#     return TransactionId
+#   except Exception as e:
+#     return str(e)
+# $$;
+
+
+# COMMAND ----------
+
+# %sql
+# -- let's test our function:
+# SELECT execute_stock_order('23456','T', 21.95, 100) as TransactionId;
 
 # COMMAND ----------
 
