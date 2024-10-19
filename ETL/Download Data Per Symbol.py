@@ -98,15 +98,15 @@ profile = {
   'Stock Exchange': ticker.info['exchange'],
   'Quote Type': ticker.info['quoteType'],
 
-  'Full-Time Employees': ticker.info['fullTimeEmployees'],
-  'audit Risk': ticker.info['auditRisk'],
-  'board Risk': ticker.info['boardRisk'],
-  'compensation Risk': ticker.info['compensationRisk'],
-  'shareholder Rights Risk': ticker.info['shareHolderRightsRisk'],
-  'overall Risk': ticker.info['overallRisk'],
+  'Full-Time Employees': get_value(ticker.info, 'fullTimeEmployees'),
+  'audit Risk': get_value(ticker.info, 'auditRisk'),
+  'board Risk': get_value(ticker.info, 'boardRisk'),
+  'compensation Risk': get_value(ticker.info, 'compensationRisk'),
+  'shareholder Rights Risk': get_value(ticker.info, 'shareHolderRightsRisk'),
+  'overall Risk': get_value(ticker.info, 'overallRisk'),
 
-  'governance Date': epoch_to_date(ticker.info['governanceEpochDate']),
-  'compensation As Of Date': epoch_to_date(ticker.info['compensationAsOfEpochDate']),
+  # 'governance Date': epoch_to_date(ticker.info['governanceEpochDate']),
+  # 'compensation As Of Date': epoch_to_date(ticker.info['compensationAsOfEpochDate']),
 
   'dividend Rate': get_value(ticker.info, 'dividendRate'),
   'dividend Yield': get_value(ticker.info, 'dividendYield'),
@@ -118,7 +118,7 @@ profile = {
   'trailing Annual Dividend Rate': get_value(ticker.info, 'trailingAnnualDividendRate'),
   'trailing Annual Dividend Yield': get_value(ticker.info, 'trailingAnnualDividendYield'),
 
-  'beta': ticker.info['beta'],
+  'beta': get_value(ticker.info, 'beta'),
   'trailing PE': get_value(ticker.info, 'trailingPE'),
   'forward PE': get_value(ticker.info, 'forwardPE'),
 
@@ -126,7 +126,7 @@ profile = {
   'market Cap': ticker.info['marketCap'],
   'enterprise Value': ticker.info['enterpriseValue'],
 
-  'profit Margins': ticker.info['profitMargins'],
+  'profit Margins': get_value(ticker.info, 'profitMargins'),
 
   'book Value': ticker.info['bookValue'],
   'price To Book': get_value(ticker.info, 'priceToBook'),
@@ -134,38 +134,38 @@ profile = {
   'next Fiscal YearEnd': epoch_to_date(ticker.info['nextFiscalYearEnd']),
   'most Recent Quarter': epoch_to_date(ticker.info['mostRecentQuarter']),
   'earnings Quarterly Growth': get_value(ticker.info, 'earningsQuarterlyGrowth'),
-  'net Income To Common': ticker.info['netIncomeToCommon'],
-  'trailing Earnings Per Share (EPS)': ticker.info['trailingEps'],
-  'forward Earnings Per Share (EPS)': ticker.info['forwardEps'],
-  'peg Ratio': ticker.info['pegRatio'],
+  'net Income To Common': get_value(ticker.info, 'netIncomeToCommon'),
+  'trailing Earnings Per Share (EPS)': get_value(ticker.info, 'trailingEps'),
+  'forward Earnings Per Share (EPS)': get_value(ticker.info, 'forwardEps'),
+  'peg Ratio': get_value(ticker.info, 'pegRatio'),
   'last Split Factor': get_value(ticker.info, 'lastSplitFactor'),
   'last Split Date': epoch_to_date(get_value(ticker.info, 'lastSplitDate')),
   'first Trade Date Utc': epoch_to_date(ticker.info['firstTradeDateEpochUtc']),
 
-  'enterprise To Revenue': ticker.info['enterpriseToRevenue'],
-  'enterprise To Ebitda': ticker.info['enterpriseToEbitda'],
+  'enterprise To Revenue': get_value(ticker.info, 'enterpriseToRevenue'),
+  'enterprise To Ebitda': get_value(ticker.info, 'enterpriseToEbitda'),
 
   'total Cash': ticker.info['totalCash'],
-  'total Cash Per Share': ticker.info['totalCashPerShare'],
+  'total Cash Per Share': get_value(ticker.info, 'totalCashPerShare'),
 
-  'ebitda': ticker.info['ebitda'],
-  'total Debt': ticker.info['totalDebt'],
-  'quick Ratio': ticker.info['quickRatio'],
-  'current Ratio': ticker.info['currentRatio'],
-  'total Revenue': ticker.info['totalRevenue'],
+  'ebitda': get_value(ticker.info, 'ebitda'),
+  'total Debt': get_value(ticker.info, 'totalDebt'),
+  'quick Ratio': get_value(ticker.info, 'quickRatio'),
+  'current Ratio': get_value(ticker.info, 'currentRatio'),
+  'total Revenue': get_value(ticker.info, 'totalRevenue'),
   'debt To Equity': get_value(ticker.info, 'debtToEquity'),
 
-  'revenue Per Share': ticker.info['revenuePerShare'],
-  'return On Assets': ticker.info['returnOnAssets'],
+  'revenue Per Share': get_value(ticker.info, 'revenuePerShare'),
+  'return On Assets': get_value(ticker.info, 'returnOnAssets'),
   'return On Equity': get_value(ticker.info, 'returnOnEquity'),
-  'free Cashflow': ticker.info['freeCashflow'],
+  'free Cashflow': get_value(ticker.info, 'freeCashflow'),
 
-  'operating Cashflow': ticker.info['operatingCashflow'],
+  'operating Cashflow': get_value(ticker.info, 'operatingCashflow'),
   'earnings Growth': get_value(ticker.info, 'earningsGrowth'),
-  'revenue Growth': ticker.info['revenueGrowth'],
-  'gross Margins': ticker.info['grossMargins'],
-  'ebitda Margins': ticker.info['ebitdaMargins'],
-  'operating Margins': ticker.info['operatingMargins'],
+  'revenue Growth': get_value(ticker.info, 'revenueGrowth'),
+  'gross Margins': get_value(ticker.info, 'grossMargins'),
+  'ebitda Margins': get_value(ticker.info, 'ebitdaMargins'),
+  'operating Margins': get_value(ticker.info, 'operatingMargins'),
 
   'financial Currency': ticker.info['financialCurrency'],
   'trailing Peg Ratio': ticker.info['trailingPegRatio'],
@@ -226,7 +226,7 @@ fundamental = {
   '50-Day Simple Moving Average': ticker.info['fiftyDayAverage'],
   '200-Day Simple Moving Average': ticker.info['twoHundredDayAverage'],
   '52-Week Change': ticker.info['52WeekChange'],
-  'price To Sales Trailing 12 Months': ticker.info['priceToSalesTrailing12Months'],
+  'price To Sales Trailing 12 Months': get_value(ticker.info, 'priceToSalesTrailing12Months'),
 
   'float Shares': ticker.info['floatShares'],
   'shares Outstanding': ticker.info['sharesOutstanding'],
@@ -262,8 +262,8 @@ realtime = {
   'day open Price': ticker.info['open'],
   'day Low Price': ticker.info['dayLow'],
   'day High Price': ticker.info['dayHigh'],
-  'bid Size': ticker.info['bidSize'],
-  'ask Size': ticker.info['askSize'],
+  'bid Size': get_value(ticker.info, 'bidSize'),
+  'ask Size': get_value(ticker.info, 'askSize'),
   'Stock Volume': ticker.info['volume'],
 }
 
@@ -278,39 +278,42 @@ show_file_content(file_name)
 
 # COMMAND ----------
 
-df = ticker.upgrades_downgrades.reset_index()
+try:
+  df = ticker.upgrades_downgrades.reset_index()
 
-# Get List of Analysts
-mylist = []
-ana_list = []
-for index, row in df.loc[df['GradeDate'] > '2024-01-01'].iterrows():
-  if len(mylist) > 9:
-    break       # Enough count
+  # Get List of Analysts
+  mylist = []
+  ana_list = []
+  for index, row in df.loc[df['GradeDate'] > '2024-01-01'].iterrows():
+    if len(mylist) > 9:
+      break       # Enough count
 
-  firm = row['Firm']
-  
-  if firm not in mylist:
-    mylist.append(firm)
-    ana_list.append({
-      'Analyst Firm': firm, 
-      'recommend rating': row['ToGrade'], 
-      'rating date': str(row['GradeDate']), 
-    })
+    firm = row['Firm']
+    
+    if firm not in mylist:
+      mylist.append(firm)
+      ana_list.append({
+        'Analyst Firm': firm, 
+        'recommend rating': row['ToGrade'], 
+        'rating date': str(row['GradeDate']), 
+      })
 
-analyst = {
-  'number Of Analyst Opinions': ticker.info['numberOfAnalystOpinions'],
-  'recommendation': ticker.info['recommendationKey'],
-  'recommended price': ticker.analyst_price_targets['current'],
-  'recommended price low': ticker.analyst_price_targets['low'],
-  'recommended price high': ticker.analyst_price_targets['high'],
-  'recommended price mean': ticker.analyst_price_targets['mean'],
-  'recommended price median': ticker.analyst_price_targets['median'],
-  'recent analysts coverage': ana_list
-}
+  analyst = {
+    'number Of Analyst Opinions': ticker.info['numberOfAnalystOpinions'],
+    'recommendation': ticker.info['recommendationKey'],
+    'recommended price': ticker.analyst_price_targets['current'],
+    'recommended price low': ticker.analyst_price_targets['low'],
+    'recommended price high': ticker.analyst_price_targets['high'],
+    'recommended price mean': ticker.analyst_price_targets['mean'],
+    'recommended price median': ticker.analyst_price_targets['median'],
+    'recent analysts coverage': ana_list
+  }
 
-file_name = f"{File_Path}{Symbol}_analyst.txt"
-write_stock_info(file_name, company_header + "\nanalysts and stock recommendation in JSON Format", analyst)
-show_file_content(file_name)
+  file_name = f"{File_Path}{Symbol}_analyst.txt"
+  write_stock_info(file_name, company_header + "\nanalysts and stock recommendation in JSON Format", analyst)
+  show_file_content(file_name)
+except Exception as e:
+  print(e)
 
 # COMMAND ----------
 
@@ -324,11 +327,14 @@ show_file_content(file_name)
 
 # COMMAND ----------
 
-txt = str(ticker.major_holders) + "\nTop Institutions Holders\n" + str(ticker.institutional_holders) + "\nTop Mutual Funds Holders\n" + str(ticker.mutualfund_holders)
+try:
+  txt = str(ticker.major_holders) + "\nTop Institutions Holders\n" + str(ticker.institutional_holders) + "\nTop Mutual Funds Holders\n" + str(ticker.mutualfund_holders)
 
-file_name = f"{File_Path}{Symbol}_institutions_mutualfunds.txt"
-write_stock_info(file_name, company_header + "\nMajor Stock Holders\n" + txt, None)
-show_file_content(file_name)
+  file_name = f"{File_Path}{Symbol}_institutions_mutualfunds.txt"
+  write_stock_info(file_name, company_header + "\nMajor Stock Holders\n" + txt, None)
+  show_file_content(file_name)
+except Exception as e:
+  print(e)
 
 # COMMAND ----------
 
@@ -342,11 +348,14 @@ show_file_content(file_name)
 
 # COMMAND ----------
 
-txt = str(ticker.insider_purchases) + "\ninsider roster holders\n" + str(ticker.insider_roster_holders) + "\ninsider transactions\n" + str(ticker.insider_transactions)
+try:
+  txt = str(ticker.insider_purchases) + "\ninsider roster holders\n" + str(ticker.insider_roster_holders) + "\ninsider transactions\n" + str(ticker.insider_transactions)
 
-file_name = f"{File_Path}{Symbol}_insiders.txt"
-write_stock_info(file_name, company_header + "\ninsider purchases\n" + txt, None)
-show_file_content(file_name)
+  file_name = f"{File_Path}{Symbol}_insiders.txt"
+  write_stock_info(file_name, company_header + "\ninsider purchases\n" + txt, None)
+  show_file_content(file_name)
+except Exception as e:
+  print(e)
 
 # COMMAND ----------
 
@@ -409,21 +418,24 @@ show_file_content(file_name)
 
 # COMMAND ----------
 
-news = []
+try:
+  news = []
 
-for item in ticker.news:
-  news.append({
-    'News Title': item['title'],
-    'Link to News Article': item['link'],
-    'Publisher': item['publisher'],
-    'Provider Publish Time': epoch_to_date(item['providerPublishTime']),
-    'News Type': item['type'],
-    'Related Tickers': item['relatedTickers'],
-  })
+  for item in ticker.news:
+    news.append({
+      'News Title': item['title'],
+      'Link to News Article': item['link'],
+      'Publisher': item['publisher'],
+      'Provider Publish Time': epoch_to_date(item['providerPublishTime']),
+      'News Type': item['type'],
+      'Related Tickers': item['relatedTickers'],
+    })
 
-file_name = f"{File_Path}{Symbol}_news.txt"
-write_stock_info(file_name, company_header + "\nNews Articles in JSON Format", news)
-show_file_content(file_name)
+  file_name = f"{File_Path}{Symbol}_news.txt"
+  write_stock_info(file_name, company_header + "\nNews Articles in JSON Format", news)
+  show_file_content(file_name)
+except Exception as e:
+  print(e)
 
 # COMMAND ----------
 

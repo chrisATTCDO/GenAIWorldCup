@@ -18,6 +18,9 @@
 
 # COMMAND ----------
 
+# Only pull realtime data for stock that is behind/current on the downloaded data. 
+# NOTE: Set Downloaded to future date to prevent excessive download, which caused the rate limit to exceed.
+
 df = spark.sql("""
 Select Symbol
 From `31184_cerebro_prd`.`cv0361`.`select_stock`

@@ -46,10 +46,34 @@ import pandas as pd
 
 # COMMAND ----------
 
+# %sql
+# DELETE From `31184_cerebro_prd`.`cv0361`.`select_stock`
+# Where Symbol = 'RF'
+
+# COMMAND ----------
+
 # MAGIC %sql
 # MAGIC Update `31184_cerebro_prd`.`cv0361`.`select_stock`
-# MAGIC Set Downloaded = null
-# MAGIC -- Where Symbol not in ('AMD','HD','KO','PLTR','SBUX','UBER','WMT')
+# MAGIC Set Downloaded = current_date()
+# MAGIC Where Symbol in ('AMD','T','VZ','TMUS','NFLX','PLTR','APPL','AMZN','META','GOOGL','NVDA','TSLA','MSFT','INTC')
+
+# COMMAND ----------
+
+# %sql
+# Select distinct sector
+# from `31184_cerebro_prd`.`cv0361`.`stock`
+
+# COMMAND ----------
+
+# %sql
+# Insert into `31184_cerebro_prd`.`cv0361`.`select_stock`(Symbol)
+# Select Symbol
+# FROM `31184_cerebro_prd`.`cv0361`.`stock`
+# WHERE Country = 'United States'
+#   and Sector in ('Technology', 'Telecommunications', 'Health Care', 'Finance', 'Energy')
+#   and Volume > 10000000
+#   and Name like '%Common Stock'
+#   and Symbol not in (Select Symbol FROM `31184_cerebro_prd`.`cv0361`.`select_stock`)
 
 # COMMAND ----------
 
