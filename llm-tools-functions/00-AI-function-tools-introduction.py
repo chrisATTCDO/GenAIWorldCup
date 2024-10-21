@@ -351,7 +351,6 @@ display_tools(get_tools()) #display in a table the tools - see _resource/00-init
 # COMMAND ----------
 
 # DBTITLE 1,Create the chat
-
 from langchain_openai import ChatOpenAI
 from databricks.sdk import WorkspaceClient
 
@@ -405,6 +404,14 @@ agent_executor.invoke({"input": "what's 12in in cm?"})
 # COMMAND ----------
 
 agent_executor.invoke({"input": "what are my latest orders?"})
+
+# COMMAND ----------
+
+agent_executor.invoke({"input": "what are my stock orders for account 23456?"})
+
+# COMMAND ----------
+
+
 
 # COMMAND ----------
 
@@ -605,8 +612,11 @@ def deploy_chain():
   # Add the user-facing instructions to the Review App
   agents.set_review_instructions(MODEL_NAME_FQN, instructions_to_reviewer)
 
+
+# COMMAND ----------
+
 # Uncomment to deploy
-#deploy_chain()
+deploy_chain()
 
 # COMMAND ----------
 
