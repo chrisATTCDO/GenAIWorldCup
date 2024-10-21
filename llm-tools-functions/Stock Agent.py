@@ -1,13 +1,4 @@
 # Databricks notebook source
-# %pip install --quiet -U databricks-sdk==0.23.0 langchain-community==0.2.10 langchain-openai==0.1.19 mlflow==2.14.3 faker
-# dbutils.library.restartPython()
-
-# COMMAND ----------
-
-# %run ./_resources/00-init $reset_all=false
-
-# COMMAND ----------
-
 # MAGIC %run ./config
 
 # COMMAND ----------
@@ -26,28 +17,27 @@ spark.sql(f"""USE `{catalog}`.`{db}`""")
 
 # COMMAND ----------
 
+# %sql
+# drop function 31184_cerebro_prd.cv0361.get_realtime_stock
+
+# COMMAND ----------
+
 # MAGIC %sql
-# MAGIC CREATE OR REPLACE FUNCTION get_realtime_stock(symbol STRING)
+# MAGIC CREATE OR REPLACE FUNCTION get_realtime_stock(stock_symbol STRING)
 # MAGIC RETURNS STRING
-# MAGIC LANGUAGE PYTHON
 # MAGIC COMMENT 'This function retrieves realtime stock data from Yahoo Finance. This function take Stock Symbol as input parameter.'
-# MAGIC AS
-# MAGIC $$
-# MAGIC   try:
-# MAGIC     import yfinance as yf
-# MAGIC
-# MAGIC     ticker = yf.Ticker(symbol)
-# MAGIC
-# MAGIC     return "currentPrice: " + ticker.info['currentPrice']
-# MAGIC   except Exception as e:
-# MAGIC     return str(e)
-# MAGIC $$;
+# MAGIC LANGUAGE SQL
+# MAGIC     RETURN
+# MAGIC     Select concat('Stock Price: ', `Last Sale`, '; Net Change: ', `Net Change`, '; Percent Change: ', `% Change`) as RealtimeQuote
+# MAGIC     From stock
+# MAGIC     Where Symbol = stock_symbol
+# MAGIC     limit 1;
 
 # COMMAND ----------
 
 # MAGIC %sql
 # MAGIC -- let's test our function:
-# MAGIC SELECT get_realtime_stock('T') as realtime_quote;
+# MAGIC SELECT get_realtime_stock('TSLA');
 
 # COMMAND ----------
 
@@ -78,36 +68,6 @@ spark.sql(f"""USE `{catalog}`.`{db}`""")
 # MAGIC     return str(e)
 # MAGIC $$;
 # MAGIC
-
-# COMMAND ----------
-
-# %sql
-# CREATE OR REPLACE FUNCTION execute_stock_order(
-#   AccountId string,
-#   Symbol string,
-#   Price double,
-#   Quantity int
-# )
-# RETURNS STRING
-# LANGUAGE PYTHON
-# COMMENT 'This function executes stock ordering.'
-# AS
-# $$
-#   try:
-#     import uuid
-#     from pyspark.sql import SparkSession
-
-#     TransactionId = str(uuid.uuid4())
-    
-#     spark = SparkSession.builder.getOrCreate()
-
-#     spark.sql(f"INSERT INTO order_stock (TransactionId, AccountId, Symbol, Price, Quantity) VALUES ('{TransactionId}', '{AccountId}', '{Symbol}', {Price}, {Quantity})")
-
-#     return TransactionId
-#   except Exception as e:
-#     return str(e)
-# $$;
-
 
 # COMMAND ----------
 
@@ -186,11 +146,15 @@ spark.sql(f"""USE `{catalog}`.`{db}`""")
 
 # COMMAND ----------
 
-# MAGIC %pip install -U databricks-sdk==0.23.0 langchain-community==0.2.10 langchain-openai==0.1.19 mlflow==2.14.3 faker
+# MAGIC %pip install -U databricks-sdk==0.23.0 langchain-community==0.2.10 langchain-openai==0.1.19 mlflow==2.14.3
 
 # COMMAND ----------
 
 dbutils.library.restartPython()
+
+# COMMAND ----------
+
+# MAGIC %run ./config
 
 # COMMAND ----------
 
@@ -325,7 +289,7 @@ agent_executor.invoke({"input": "what is tesla stock price?"})
 
 # COMMAND ----------
 
-agent_executor.invoke({"input": "sell 25 shares of tesla."})
+agent_executor.invoke({"input": "sell 10 shares of tesla."})
 
 # COMMAND ----------
 
@@ -334,11 +298,15 @@ agent_executor.invoke({"input": "sell 25 shares of tesla."})
 
 # COMMAND ----------
 
-agent_executor.invoke({"input": "how is apple performing?"})
+agent_executor.invoke({"input": "how is AT&T performing?"})
 
 # COMMAND ----------
 
-agent_executor.invoke({"input": "I want to buy 50 shares of apple."})
+agent_executor.invoke({"input": "I want to buy 100 shares of AT&T."})
+
+# COMMAND ----------
+
+agent_executor.invoke({"input": "can you grab me 15 shares of Apple?"})
 
 # COMMAND ----------
 

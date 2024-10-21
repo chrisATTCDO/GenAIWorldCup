@@ -189,4 +189,11 @@ import pandas as pd
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC Select concat('Stock Price: ', `Last Sale`, '; Net Change: ', `Net Change`, '; Percent Change: ', `% Change`, '; Volume: ', Volume) as ResponseText
+# MAGIC From `31184_cerebro_prd`.`cv0361`.`stock`
+# MAGIC Where Symbol = 'T'
+
+# COMMAND ----------
+
 
