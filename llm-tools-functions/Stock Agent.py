@@ -1,4 +1,18 @@
 # Databricks notebook source
+# MAGIC %md
+# MAGIC
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC # Stock Exection Agent Based on Mosaic AI Agent Framework
+# MAGIC * Get Realtime Stock Quote - How is Apple performing?
+# MAGIC * Buy some shares of stock - Grab me 100 shares of AT&T.
+# MAGIC * Sell some shares of stock - Sell 15 shares of Testla.
+# MAGIC * Get recent transaction history - What are my latest transactions?
+
+# COMMAND ----------
+
 # MAGIC %run ./config
 
 # COMMAND ----------
@@ -13,7 +27,7 @@ spark.sql(f"""USE `{catalog}`.`{db}`""")
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ### Get Realtime Stock Quote
+# MAGIC ### Define Function - Get Realtime Stock Quote
 
 # COMMAND ----------
 
@@ -42,7 +56,7 @@ spark.sql(f"""USE `{catalog}`.`{db}`""")
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ### Stock Ordering
+# MAGIC ### Define Function - Stock Ordering (Buy/Sell)
 
 # COMMAND ----------
 
@@ -107,7 +121,7 @@ spark.sql(f"""USE `{catalog}`.`{db}`""")
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ### Stock Transactions
+# MAGIC ### Define Function - Get Recent Stock Transactions
 
 # COMMAND ----------
 
@@ -142,7 +156,7 @@ spark.sql(f"""USE `{catalog}`.`{db}`""")
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## Agent
+# MAGIC ## Working with Agent
 
 # COMMAND ----------
 
