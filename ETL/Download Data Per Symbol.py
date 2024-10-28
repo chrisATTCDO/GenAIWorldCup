@@ -240,7 +240,7 @@ fundamental = {
   'held Percent Institutions': ticker.info['heldPercentInstitutions'],
 
   'short Ratio': ticker.info['shortRatio'],
-  'short Percent Of Float': ticker.info['shortPercentOfFloat'],
+  'short Percent Of Float': get_value(ticker.info, 'shortPercentOfFloat'),
   'implied Shares Outstanding': ticker.info['impliedSharesOutstanding'],
 }
 
