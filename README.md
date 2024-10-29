@@ -46,6 +46,7 @@ Databricks simplified the model tuning process with UI driven interface. We want
 <img src="UI/Images/Finetune - Cont Pretrain.png" alt="" width="650"/> <br>
 
 ## Attribution
+Thank you, [Abhay Dabholkar](https://www.linkedin.com/in/abhay-dabholkar-57654113/) for guidance and coordinating Databricks SME and resources to help make the delivery possible and ontime.
 
 #### Databricks Resources
 * https://ai-cookbook.io/
