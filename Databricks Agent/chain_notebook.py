@@ -1,5 +1,5 @@
 # Databricks notebook source
-# MAGIC %pip install -U databricks-sdk==0.23.0 langchain-community==0.2.10 langchain-openai==0.1.19 mlflow==2.14.3 langchain_community
+# MAGIC %pip install -U databricks-sdk==0.23.0 langchain-community==0.2.10 langchain-openai==0.1.19 mlflow==2.14.3
 
 # COMMAND ----------
 
@@ -16,9 +16,10 @@ import mlflow
 model_config = mlflow.models.ModelConfig(development_config="rag_chain_config.yaml")
 
 warehouse_id = model_config.get("warehouse_id")
-catalog = "31184_cerebro_prd"
-db = "cv0361"
-print(f'This demo will be using the SQL Warehouse: {warehouse_id} to execute the functions')
+catalog = model_config.get("catalog")
+db = model_config.get("db")
+
+print(f'SQL Warehouse: {warehouse_id} to execute the functions')
 
 def display_tools(tools):
     display(pd.DataFrame([{k: str(v) for k, v in vars(tool).items()} for tool in tools]))

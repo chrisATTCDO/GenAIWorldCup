@@ -1,19 +1,28 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC
-
-# COMMAND ----------
-
-# MAGIC %md
 # MAGIC # Stock Exection Agent Based on Mosaic AI Agent Framework
 # MAGIC * Get Realtime Stock Quote - How is Apple performing?
 # MAGIC * Buy some shares of stock - Grab me 100 shares of AT&T.
 # MAGIC * Sell some shares of stock - Sell 15 shares of Testla.
 # MAGIC * Get recent transaction history - What are my latest transactions?
+# MAGIC
+# MAGIC ### References:
+# MAGIC * https://docs.databricks.com/en/generative-ai/tutorials/agent-framework-notebook.html
+# MAGIC * https://notebooks.databricks.com/demos/llm-tools-functions/index.html#
+# MAGIC * https://learn.microsoft.com/en-us/azure/databricks/generative-ai/create-log-agent
 
 # COMMAND ----------
 
-# MAGIC %run ./config
+# MAGIC %pip install -U databricks-sdk==0.23.0 langchain-community==0.2.10 langchain-openai==0.1.19 mlflow==2.14.3
+
+# COMMAND ----------
+
+dbutils.library.restartPython()
+
+# COMMAND ----------
+
+catalog = "31184_cerebro_prd"
+dbName = db = "cv0361"
 
 # COMMAND ----------
 
@@ -160,22 +169,11 @@ spark.sql(f"""USE `{catalog}`.`{db}`""")
 
 # COMMAND ----------
 
-# %pip uninstall -y mlflow mlflow-skinny
-# %pip install -U -qqqq databricks-agents mlflow mlflow-skinny databricks-sdk langchain==0.2.1 langchain_core==0.2.5 langchain_community==0.2.4 
-
-# # dbutils.library.restartPython()
+# %pip install -U databricks-sdk==0.23.0 langchain-community==0.2.10 langchain-openai==0.1.19 mlflow==2.14.3
 
 # COMMAND ----------
 
-# MAGIC %pip install -U databricks-sdk==0.23.0 langchain-community==0.2.10 langchain-openai==0.1.19 mlflow==2.14.3
-
-# COMMAND ----------
-
-dbutils.library.restartPython()
-
-# COMMAND ----------
-
-# MAGIC %run ./config
+# dbutils.library.restartPython()
 
 # COMMAND ----------
 
@@ -356,25 +354,25 @@ import os
 
 # COMMAND ----------
 
-# TODO: write this as a separate file if you want to deploy it properly
-from langchain.schema.runnable import RunnableLambda
-from langchain_core.output_parsers import StrOutputParser
+# # TODO: write this as a separate file if you want to deploy it properly
+# from langchain.schema.runnable import RunnableLambda
+# from langchain_core.output_parsers import StrOutputParser
 
-# Function to extract the user's query
-def extract_user_query_string(chat_messages_array):
-    return chat_messages_array[-1]["content"]
+# # Function to extract the user's query
+# def extract_user_query_string(chat_messages_array):
+#     return chat_messages_array[-1]["content"]
 
-# Wrapping the agent_executor invocation
-def agent_executor_wrapper(input_data):
-    result = agent_executor.invoke({"input": input_data})
-    return result["output"]
+# # Wrapping the agent_executor invocation
+# def agent_executor_wrapper(input_data):
+#     result = agent_executor.invoke({"input": input_data})
+#     return result["output"]
 
-# Create the chain using the | operator with StrOutputParser
-chain = (
-    RunnableLambda(lambda data: extract_user_query_string(data["messages"]))  # Extract the user query
-    | RunnableLambda(agent_executor_wrapper)  # Pass the query to the agent executor
-    | StrOutputParser()  # Optionally parse the output to ensure it's a clean string
-)
+# # Create the chain using the | operator with StrOutputParser
+# chain = (
+#     RunnableLambda(lambda data: extract_user_query_string(data["messages"]))  # Extract the user query
+#     | RunnableLambda(agent_executor_wrapper)  # Pass the query to the agent executor
+#     | StrOutputParser()  # Optionally parse the output to ensure it's a clean string
+# )
 
 # COMMAND ----------
 
@@ -384,9 +382,10 @@ input_data = {
         {"content": "what are my stock orders for account 23456?"}
     ]
 }
-# Run the chain
-answer = chain.invoke(input_data)
-displayHTML(answer.replace('\n', '<br>'))
+
+# # Run the chain
+# answer = chain.invoke(input_data)
+# displayHTML(answer.replace('\n', '<br>'))
 
 # COMMAND ----------
 
@@ -394,7 +393,9 @@ displayHTML(answer.replace('\n', '<br>'))
 chain_config = {
     "llm_model": "databricks-meta-llama-3-70b-instruct",
     "warehouse_id": wh.id,
-    "api_key": dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().get()
+    "api_key": dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().get(),
+    "catalog": catalog,
+    "db": dbName
 } 
 
 
@@ -421,11 +422,27 @@ with mlflow.start_run(run_name="stock_agent_bot"):
 
 print(logged_chain_info.model_uri)
 
+# Test the chain locally to see the MLflow Trace
+chain = mlflow.langchain.load_model(logged_chain_info.model_uri)
+
+
 # COMMAND ----------
 
-# Test the chain locally to see the MLflow Trace
-# model_uri = 'runs:/954e5623e9b54bc999d3667365175ed3/chain'
-chain = mlflow.langchain.load_model(logged_chain_info.model_uri)
+input_data = {
+    "messages": [
+        {"content": "what are my stock orders for account 23456?"}
+    ]
+}
+chain.invoke(input_data)
+
+# COMMAND ----------
+
+input_data = {
+    "messages": [
+        {"content": "stock price for pfizer?"}
+    ]
+}
+
 chain.invoke(input_data)
 
 # COMMAND ----------
@@ -447,7 +464,6 @@ print("UC_MODEL_NAME:", UC_MODEL_NAME)
 
 # COMMAND ----------
 
-from databricks import agents
 import time
 from databricks.sdk.service.serving import EndpointStateReady, EndpointStateConfigUpdate
 
@@ -461,14 +477,20 @@ uc_registered_model_info = mlflow.register_model(model_uri=logged_chain_info.mod
 
 # COMMAND ----------
 
-# Deploy to enable the Review APP and create an API endpoint
-deployment_info = agents.deploy(model_name=UC_MODEL_NAME, model_version=uc_registered_model_info.version)
+# from databricks import agents
+
+# # Deploy to enable the Review APP and create an API endpoint
+# deployment_info = agents.deploy(model_name=UC_MODEL_NAME, model_version=uc_registered_model_info.version)
 
 # COMMAND ----------
 
-# Wait for the Review App to be ready
-print("\nWaiting for endpoint to deploy.  This can take 10 - 20 minutes.", end="")
+# # Wait for the Review App to be ready
+# print("\nWaiting for endpoint to deploy.  This can take 10 - 20 minutes.", end="")
 
-while w.serving_endpoints.get(deployment_info.endpoint_name).state.ready == EndpointStateReady.NOT_READY or w.serving_endpoints.get(deployment_info.endpoint_name).state.config_update == EndpointStateConfigUpdate.IN_PROGRESS:
-    print(".", end="")
-    time.sleep(30)
+# while w.serving_endpoints.get(deployment_info.endpoint_name).state.ready == EndpointStateReady.NOT_READY or w.serving_endpoints.get(deployment_info.endpoint_name).state.config_update == EndpointStateConfigUpdate.IN_PROGRESS:
+#     print(".", end="")
+#     time.sleep(30)
+
+# COMMAND ----------
+
+
