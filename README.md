@@ -38,6 +38,11 @@ Amazingly, user can just specify a company and the agent (LLM) will automaticall
 
 <img src="UI/Images/Agent Fetch Stock Price.png" alt="" width="650"/> <br>
 
+Furthermore, Agent can properly detect intent and automatically mapped natural language input values into multiple parameters.
+
+<img src="UI/Images/Agent Sell Stock.png" alt="" width="650"/> <br>
+<img src="UI/Images/Agent Buy Stock.png" alt="" width="650"/> <br>
+
 ## Model Fine-tuning
 Prepared Dataset with thousands of files representing Financial, News, Insight, etc for each Company
 

@@ -447,6 +447,24 @@ chain.invoke(input_data)
 
 # COMMAND ----------
 
+input_data = {
+    "messages": [
+        {"content": "Dispose 100 shares of Intel."}
+    ]
+}
+chain.invoke(input_data)
+
+# COMMAND ----------
+
+input_data = {
+    "messages": [
+        {"content": "can you grab me 15 shares of Apple?"}
+    ]
+}
+chain.invoke(input_data)
+
+# COMMAND ----------
+
 # Use the current user name to create any necessary resources
 w = WorkspaceClient()
 user_name = w.current_user.me().user_name.split("@")[0].replace(".", "")
