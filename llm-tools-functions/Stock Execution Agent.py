@@ -160,6 +160,13 @@ spark.sql(f"""USE `{catalog}`.`{db}`""")
 
 # COMMAND ----------
 
+# %pip uninstall -y mlflow mlflow-skinny
+# %pip install -U -qqqq databricks-agents mlflow mlflow-skinny databricks-sdk langchain==0.2.1 langchain_core==0.2.5 langchain_community==0.2.4 
+
+# # dbutils.library.restartPython()
+
+# COMMAND ----------
+
 # MAGIC %pip install -U databricks-sdk==0.23.0 langchain-community==0.2.10 langchain-openai==0.1.19 mlflow==2.14.3
 
 # COMMAND ----------
@@ -230,6 +237,11 @@ def get_tools():
         .get_tools())
 
 display_tools(get_tools()) #display in a table the tools - see _resource/00-init for details
+
+# COMMAND ----------
+
+# %sql
+# drop function recommend_outfit_description
 
 # COMMAND ----------
 
@@ -333,4 +345,130 @@ agent_executor.invoke({"input": "what are my stock orders for account 23456?"})
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC ## Deploying our Agent Executor as Model Serving Endpoint
+# MAGIC
+# MAGIC We're now ready to package our chain within MLFLow, and deploy it as a Model Serving Endpoint, leveraging Databricks Agent Framework and its review application.
 
+# COMMAND ----------
+
+import os
+
+# COMMAND ----------
+
+# TODO: write this as a separate file if you want to deploy it properly
+from langchain.schema.runnable import RunnableLambda
+from langchain_core.output_parsers import StrOutputParser
+
+# Function to extract the user's query
+def extract_user_query_string(chat_messages_array):
+    return chat_messages_array[-1]["content"]
+
+# Wrapping the agent_executor invocation
+def agent_executor_wrapper(input_data):
+    result = agent_executor.invoke({"input": input_data})
+    return result["output"]
+
+# Create the chain using the | operator with StrOutputParser
+chain = (
+    RunnableLambda(lambda data: extract_user_query_string(data["messages"]))  # Extract the user query
+    | RunnableLambda(agent_executor_wrapper)  # Pass the query to the agent executor
+    | StrOutputParser()  # Optionally parse the output to ensure it's a clean string
+)
+
+# COMMAND ----------
+
+# Example input data
+input_data = {
+    "messages": [
+        {"content": "what are my stock orders for account 23456?"}
+    ]
+}
+# Run the chain
+answer = chain.invoke(input_data)
+displayHTML(answer.replace('\n', '<br>'))
+
+# COMMAND ----------
+
+# For this first basic demo, we'll keep the configuration as a minimum. In real app, you can make all your RAG as a param (such as your prompt template to easily test different prompts!)
+chain_config = {
+    "llm_model": "databricks-meta-llama-3-70b-instruct",
+    "warehouse_id": wh.id,
+    "api_key": dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().get()
+} 
+
+
+# COMMAND ----------
+
+os.path.join(os.getcwd(), 'chain_notebook')
+
+# COMMAND ----------
+
+# Log the model to MLflow
+with mlflow.start_run(run_name="stock_agent_bot"):
+    logged_chain_info = mlflow.langchain.log_model(
+            lc_model=os.path.join(os.getcwd(), 'chain_notebook'), # Chain code file e.g., /path/to/the/chain.py 
+            model_config=chain_config, # Chain configuration 
+            artifact_path="chain", # Required by MLflow, the chain's code/config are saved in this directory
+            input_example=input_data,
+            example_no_conversion=True,  # Required by MLflow to use the input_example as the chain's schema
+            # signature=False
+        )
+
+
+
+# COMMAND ----------
+
+print(logged_chain_info.model_uri)
+
+# COMMAND ----------
+
+# Test the chain locally to see the MLflow Trace
+# model_uri = 'runs:/954e5623e9b54bc999d3667365175ed3/chain'
+chain = mlflow.langchain.load_model(logged_chain_info.model_uri)
+chain.invoke(input_data)
+
+# COMMAND ----------
+
+# Use the current user name to create any necessary resources
+w = WorkspaceClient()
+user_name = w.current_user.me().user_name.split("@")[0].replace(".", "")
+
+# UC Catalog and Schema where outputs tables/indexs are saved
+# If this catalog/schema does not exist, you need create catalog/schema permissions.
+UC_CATALOG = f'31184_cerebro_prd'
+UC_SCHEMA = f'cv0361'
+
+# UC Model name where tr chain is logged
+UC_MODEL_NAME = f"{UC_CATALOG}.{UC_SCHEMA}.stock_agent_model"
+
+print("UC_MODEL_NAME:", UC_MODEL_NAME)
+
+
+# COMMAND ----------
+
+from databricks import agents
+import time
+from databricks.sdk.service.serving import EndpointStateReady, EndpointStateConfigUpdate
+
+# Use Unity Catalog to log the chain
+mlflow.set_registry_uri("databricks-uc")
+
+# Register the chain to UC
+uc_registered_model_info = mlflow.register_model(model_uri=logged_chain_info.model_uri, name=UC_MODEL_NAME)
+
+
+
+# COMMAND ----------
+
+# Deploy to enable the Review APP and create an API endpoint
+deployment_info = agents.deploy(model_name=UC_MODEL_NAME, model_version=uc_registered_model_info.version)
+
+# COMMAND ----------
+
+# Wait for the Review App to be ready
+print("\nWaiting for endpoint to deploy.  This can take 10 - 20 minutes.", end="")
+
+while w.serving_endpoints.get(deployment_info.endpoint_name).state.ready == EndpointStateReady.NOT_READY or w.serving_endpoints.get(deployment_info.endpoint_name).state.config_update == EndpointStateConfigUpdate.IN_PROGRESS:
+    print(".", end="")
+    time.sleep(30)
