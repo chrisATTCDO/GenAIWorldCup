@@ -47,6 +47,25 @@ Databricks simplified the model tuning process with UI driven interface. We want
 
 <img src="UI/Images/Finetune - Cont Pretrain.png" alt="" width="650"/> <br>
 
+## Databricks Technology Incorporated into Project
+* Databricks Repos – Realtime notebooks sharing, collaboration, and tracking
+* Unity Catalog – Store Tables, functions, models, data volumes
+* Delta Sharing – Sample public datasets
+* Databricks Vector Search – Vectorized data index for RAG pipeline 
+* Interactive Cluster and SQL Warehouse – Compute for interactive notebooks collaboration and sql functions
+* Databricks Jobs – Execute ETL pipelines on recurring schedule
+* Databricks Model Serving and Marketplace
+  * DBRX
+  * Mosaic MPT Models
+  * Llama 3.1
+* Databricks Playground – Evaluate LLMs
+* Databricks MLflow - Tracks and manages the experiments and models deployments 
+* Mosaic Agent Framework – Stock RAG pipeline and Stock Execution Agent to perform various on-demand operations
+* Agent Evaluation – Evaluate models accuracy and performance
+* Databricks Guardrails - Safety Filter for LLM
+* Mosaic AI Model Serving – Host RAG models and Agent models
+* Databricks Apps – Deployed Streamlit Application
+
 ## Attribution
 
 #### Databricks Resources
