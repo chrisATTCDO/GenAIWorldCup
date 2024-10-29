@@ -16,12 +16,34 @@ This Repos contains deliverable for Databricks GenAI World Cup Hackathon. We cre
 ## Project Background
 <img src="UI/Images/Application Overview.png" alt="Wall Street Guru Application Overview" width="650"/> <br>
 <img src="UI/Images/Usage Scenarios.png" alt="Wall Street Guru App Usage Scenarios" width="650"/> <br>
-<img src="UI/Images/WhyRAG.png" alt="Why RAG?" width="650"/> <br>
 
 ## Architecture
 <img src="UI/Images/Architecture.png" alt="Wall Street Guru - Architecture" width="650"/>
 
-## Installation and Setups
+## RAG Pipeline using Databricks Vector Store
+
+## Stock Exection Agent Based on Mosaic AI Agent Framework
+We used Databricks Agent Tools to implement on-demand stocks transactions.
+  * Get Realtime Stock Quote - How is Apple performing?
+  * Buy some shares of stock - Grab me 100 shares of AT&T.
+  * Sell some shares of stock - Sell 15 shares of Testla.
+  * Get recent transaction history - What are my latest transactions?
+
+<img src="UI/Images/Agent Fetch Transaction 1.png" alt="" width="650"/> <br>
+<img src="UI/Images/Agent Fetch Transaction 2.png" alt="" width="650"/> <br>
+
+Amazingly, user can just specify a company and the agent (LLM) will automatically convert the company to a stock symbol to pass to the appropriately invoked function to fetch realtime stock price.
+
+<img src="UI/Images/Agent Fetch Stock Price.png" alt="" width="650"/> <br>
+
+## Model Fine-tuning
+Prepared Dataset with thousands of files representing Financial, News, Insight, etc for each Company
+
+<img src="UI/Images/Finetune - Dataset.png" alt="" width="650"/> <br>
+
+Databricks simplified the model tuning process with UI driven interface. We wanted to finetune with Continued-Pretrain option to see if accuracy and potentially speed can be improved.
+
+<img src="UI/Images/Finetune - Cont Pretrain.png" alt="" width="650"/> <br>
 
 ## Attribution
 
