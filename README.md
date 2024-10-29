@@ -11,7 +11,9 @@ This Repos contains deliverable for Databricks GenAI World Cup Hackathon. We cre
 * Repos: https://github.com/chrisATTCDO/GenAIWorldCup
 
 ## Team: AT&T - CDO
-<img src="UI/Images/Team_AT&T-CDO.png" alt="Team AT&T-CDO Members" width="650"/>
+<img src="UI/Images/Team_AT&T-CDO.png" alt="Team AT&T-CDO Members" width="650"/> <br>
+
+Thank you, [Abhay Dabholkar](https://www.linkedin.com/in/abhay-dabholkar-57654113/) for guidance and coordinating Databricks SME and resources to help make the delivery possible and ontime.
 
 ## Project Background
 <img src="UI/Images/Application Overview.png" alt="Wall Street Guru Application Overview" width="650"/> <br>
@@ -46,7 +48,6 @@ Databricks simplified the model tuning process with UI driven interface. We want
 <img src="UI/Images/Finetune - Cont Pretrain.png" alt="" width="650"/> <br>
 
 ## Attribution
-Thank you, [Abhay Dabholkar](https://www.linkedin.com/in/abhay-dabholkar-57654113/) for guidance and coordinating Databricks SME and resources to help make the delivery possible and ontime.
 
 #### Databricks Resources
 * https://ai-cookbook.io/
