@@ -1,7 +1,9 @@
 <img src="UI/Images/WallStreetGuru.png" alt="AI-Generated Wall Street Guru" width="200"/>
 
 # GenAIWorldCup - Wall Street Guru
-This Repos contains deliverable for Databricks GenAI World Cup Hackathon. We created an interactive Wall Street Financial Guru (Avatar) who can provide financial insight and realtime stocks info for companies. This tool can be used as a Chatbot Avatar for Wall Street Investment Firm or as a Chatbot Avatar for a company's Investor Relation application.
+This Repos contains deliverable for Databricks GenAI World Cup Hackathon. We created an interactive Wall Street Financial Guru (Avatar) who can provide financial insight and realtime stocks info for companies. The backend incorporated RAG pipeline to retrieve context from Databricks Search for LLM generative answer + Agentic Function Tools based on Mosaic AI Agent Framework to automatically infer and execute actions requested by users via natural language. We were able to leverage Databricks as a single platform from Development to Deployment with multiple toolsets for Code Collaboration, ETL, Models Development, Models Registry, Models Finetuning, Models Evaluation, Feedbacks, Models Serving and monitoring. 
+
+This tool can be used as a Chatbot Avatar for Wall Street Investment Firm (such as Fidelity) or as a Chatbot Avatar for a company's (such as AT&T) Investor Relation application.
 
 * hackathon: https://hackathon.stackup.dev/web/events
 * discord: https://go.d3v.gg/genaiwc-databricks-discord
