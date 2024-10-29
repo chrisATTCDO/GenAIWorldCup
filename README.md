@@ -22,7 +22,7 @@ Thank you, [Abhay Dabholkar](https://www.linkedin.com/in/abhay-dabholkar-5765411
 ## Architecture
 <img src="UI/Images/Architecture.png" alt="Wall Street Guru - Architecture" width="650"/>
 
-## RAG Pipeline using Databricks Vector Store and MLFlow Models Evaluation
+## RAG Pipeline using Databricks Vector Search and MLFlow Models Evaluation
 
 ## Stock Exection Agent Based on Mosaic AI Agent Framework
 We used Databricks Agent Tools to implement on-demand stocks transactions.
