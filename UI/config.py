@@ -1,3 +1,3 @@
 # config.py  
-PAT = "PAT TOKEN"  
-URL = "DATABRICKS SERVING ENDPOINT URL" 
+PAT = "**************************" 
+URL = "************************" 
