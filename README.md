@@ -54,6 +54,12 @@ Databricks simplified the model tuning process with UI driven interface. We want
 
 <img src="UI/Images/Finetune - Cont Pretrain.png" alt="" width="650"/> <br>
 
+## Model Evaluation
+
+We've used databricks evaluate module which simplifies the evaluation framework. Also, made use of LLM as a judge to evaluate the responses against the context.
+
+<img src="Evaluation/Evaluation dashboard.png" alt="" /> <br>
+
 ## Databricks Technology Incorporated into Project
 * Databricks Repos – Realtime notebooks sharing, collaboration, and tracking
 * Unity Catalog – Store Tables, functions, models, data volumes
