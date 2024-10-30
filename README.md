@@ -9,7 +9,7 @@ This tool can be used as a Chatbot Avatar for Wall Street Investment Firm (such 
 * discord: https://go.d3v.gg/genaiwc-databricks-discord
 
 ## Deliverables
-* Video: TBD
+* Video: https://youtu.be/8zgIVNEUYXQ?si=xRhTab1dOvCkgG05
 * Repos: https://github.com/chrisATTCDO/GenAIWorldCup
 
 ## Team: AT&T - CDO
