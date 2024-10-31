@@ -1,0 +1,111 @@
+{
+    "filter_columns": {
+        "metadata_columns": [
+            "COMPANY",
+            "symbol"
+        ]
+    },
+    "generator": {
+        "openai_chat_model": "gpt-4o",
+        "openai_endpoint": "https://cast-southcentral-nprd-apim.azure-api.net/askatt/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview"
+    },
+    "ingestion": [
+        {
+            "extension": [
+                "pdf"
+            ],
+            "file_loader_class_name": "PyMuPDFLoader",
+            "loader_kwargs": {},
+            "splitter_class_name": "RecursiveCharacterTextSplitter",
+            "splitter_kwargs": {
+                "chunk_overlap": 300,
+                "chunk_size": 1000
+            }
+        },
+        {
+            "extension": [
+                "doc",
+                "txt",
+                "docx"
+            ],
+            "file_loader_class_name": "UnstructuredWordDocumentLoader",
+            "loader_kwargs": {
+                "mode": "elements"
+            },
+            "splitter_class_name": "RecursiveCharacterTextSplitter",
+            "splitter_kwargs": {
+                "chunk_overlap": 300,
+                "chunk_size": 950
+            }
+        },
+        {
+            "extension": [
+                "csv"
+            ],
+            "file_loader_class_name": "CSVLoader",
+            "loader_kwargs": {},
+            "splitter_class_name": "RecursiveCharacterTextSplitter",
+            "splitter_kwargs": {
+                "chunk_overlap": 250,
+                "chunk_size": 1000
+            }
+        },
+        {
+            "extension": [
+                "xlsx"
+            ],
+            "file_loader_class_name": "UnstructuredExcelLoader",
+            "loader_kwargs": {},
+            "splitter_class_name": "RecursiveCharacterTextSplitter",
+            "splitter_kwargs": {
+                "chunk_overlap": 250,
+                "chunk_size": 1000
+            }
+        },
+        {
+            "extension": [
+                "json"
+            ],
+            "file_loader_class_name": "JSONLoader",
+            "loader_kwargs": {
+                "jq_schema": ".",
+                "text_content": false
+            },
+            "splitter_class_name": "RecursiveCharacterTextSplitter",
+            "splitter_kwargs": {
+                "chunk_overlap": 750,
+                "chunk_size": 2000
+            }
+        }
+    ],
+    "prompts": {
+        "generator_prompt": "You are the great stock expert who knows about all the stock details trends and related analysis. You must always speak natural and professional. Do not repeat yourself and make it like conversational. If you are ever challenged by someone to be professional, you must add some SIGNIFICANT sarcasm while answering. Do not use emojis and unwanted special characters in the response. Do not use symbols of the stocks in the response, just the company name should be fine. Don't generate response as a list. Ensure Your response is always informed by previous conversation history. While referring AT&T in the response use AT&T keyword only and don't use ATT or Att. The user is listening to answers with audio, so it's super important that answers are as concise as possible. Never read file names or source names or keys out loud. If you don't find the answer in the provided context, just say that you don't know as the information is not in the knowledge base, don't try to make up an answer.\n\n  {context}\n\n  Question: {question}\n\n  Chat History: {chat_history}\n  Helpful Answer:",
+        "muliturn_prompt": "\nGiven a question-answer pair, generate a new question based on the provided conversation if User Query qualifies as a follow-up question to the previous conversation else  do not change the user query and return User Query as standalone query dont need justification for it.\n The new question should be derived from the conversation and capture the essence of the topic discussed. \n Ensure that the new question does not directly replicate the follow-up question and can be understood independently without relying on the conversation for context.\n Ensure that the returned new question maintains the language and structure similar to the follow-up question.\n Conversation: \n {conversation}\nUserQuery:\n{question}\n\nStandalone query:\n",
+        "symbol_conversation_prompt": "\n            Question: {question}\n            Answer: {answer}\n",
+        "symbol_identifier_prompt": "\nYou are an New York stock exchange bot.from the conversation below identify the Company name and its symbol and return only the symbol of companies\n\n            Conversations:\n            {conversation}\n\n            current question: {query}\n\n            if single company provided\n              Answer Format : <Symbol>\n            if multiple companies \n              Answer Format : <Symbol1>,<Symbol2> \n            "
+    },
+    "vector_store": {
+        "embedding": {
+			"parameters": {"k": 3, "query_type": "ann"},
+            "model": "databricks-gte-large-en",
+            "dimension": 1024
+        },
+        "endpoint_name": "db-wallstreetguru",
+        "index": {
+            "embedding_vector_column": "content_vector",
+            "name": "31184_cerebro_poc.default.wallstreetguru_db",
+            "primary_key": "id",
+            "schema": {
+                "content_vector": "array<float>",
+                "id": "string",
+                "metadata": "string",
+                "page_content": "string",
+                "source": "string"
+            }
+        },
+        "query_type": "ann"
+    },
+    "vision": {
+        "openai_endpoint": "https://cast-southcentral-nprd-apim.azure-api.net/askatt/openai/deployments/gpt-4v/chat/completions?api-version=2024-02-15-preview"
+    }
+}

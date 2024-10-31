@@ -24,9 +24,19 @@ Thank you, [Abhay Dabholkar](https://www.linkedin.com/in/abhay-dabholkar-5765411
 ## Architecture
 <img src="UI/Images/Architecture.png" alt="Wall Street Guru - Architecture" width="650"/>
 
-## RAG Pipeline using Databricks Vector Search and MLFlow Models Evaluation
+## RAG Pipeline using Databricks Vector Search and MLFlow Models
+## VectorDB
+Stock information for certain companies was crawled from Yahoo finance and vectorized
 
-## Stock Exection Agent Based on Mosaic AI Agent Framework
+<img src="Ingestion/Index.png" alt="" /> <br>
+
+## Model Evaluation
+
+We've used databricks evaluate module which simplifies the evaluation framework. Also, made use of LLM as a judge to evaluate the responses against the context.
+
+<img src="Evaluation/Evaluation dashboard.png" alt="" /> <br>
+
+## Stock Execution Agent Based on Mosaic AI Agent Framework
 We used Databricks Agent Tools to implement on-demand stocks transactions.
   * Get Realtime Stock Quote - How is Apple performing?
   * Buy some shares of stock - Grab me 100 shares of AT&T.
@@ -53,12 +63,6 @@ Prepared Dataset with thousands of files representing Financial, News, Insight, 
 Databricks simplified the model tuning process with UI driven interface. We wanted to finetune with Continued-Pretrain option to see if accuracy and potentially speed can be improved.
 
 <img src="UI/Images/Finetune - Cont Pretrain.png" alt="" width="650"/> <br>
-
-## Model Evaluation
-
-We've used databricks evaluate module which simplifies the evaluation framework. Also, made use of LLM as a judge to evaluate the responses against the context.
-
-<img src="Evaluation/Evaluation dashboard.png" alt="" /> <br>
 
 ## Databricks Technology Incorporated into Project
 * Databricks Repos – Realtime notebooks sharing, collaboration, and tracking
